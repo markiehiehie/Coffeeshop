@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News & Events – Waffee Café</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <!-- Existing stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* ── CSS Variables (mirrors Waffee palette) ── */
+    :root {
+      --amber:  #e8a030;
+      --cream:  #f5ede0;
+      --muted:  #a89880;
+      --dark:   #1a1510;
+      --card-bg:#211c16;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Holiday Alert Banner ── */
+    #holiday-banner {
+      display: none;
+      border-radius: 0;
+      border: none;
+      border-bottom: 2px solid var(--amber);
+      background: linear-gradient(90deg, #3b2800 0%, #211c16 50%, #3b2800 100%);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      padding: 1rem 1.5rem;
+    }
+    #holiday-banner .badge {
+      background: var(--amber) !important;
+      color: #1a1510;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4em 0.75em;
+      border-radius: 2px;
+    }
+    #holiday-banner strong { color: var(--amber); }
+
+    /* ── Promo Carousel ── */
+    #promoCarousel {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    /* Force a perfect square on the carousel */
+    #promoCarousel,
+    #promoCarousel .carousel-inner,
+    #promoCarousel .carousel-item {
+      aspect-ratio: 1 / 1;
+    }
+    .carousel-slide {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .carousel-slide-img-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .carousel-slide-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .carousel-slide-body {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem 2rem 1.8rem;
+    }
+    .carousel-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(20,13,5,0.95) 35%, rgba(20,13,5,0.25) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .carousel-slide-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      transition: transform 6s ease;
+    }
+    .carousel-item.active .carousel-slide-bg { transform: scale(1.04); }
+    .carousel-content { position: relative; z-index: 2; }
+    .carousel-promo-tag {
+      display: inline-block;
+      background: var(--amber);
+      color: #1a1510;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3em 0.8em;
+      border-radius: 2px;
+      margin-bottom: 0.75rem;
+    }
+    .carousel-title {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .carousel-desc {
+      color: rgba(248,240,227,0.92);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin-bottom: 1.2rem;
+    }
+    .carousel-validity {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .carousel-validity i { color: var(--amber); margin-right: 0.3em; }
+
+    /* Carousel controls */
+    .carousel-control-prev, .carousel-control-next {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(232,160,48,0.2);
+      border: 1px solid rgba(232,160,48,0.35);
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 1;
+    }
+    .carousel-control-prev { left: 1rem; }
+    .carousel-control-next { right: 1rem; }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon { width: 18px; height: 18px; }
+    .carousel-indicators [data-bs-target] {
+      background-color: var(--muted);
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: none;
+    }
+    .carousel-indicators .active { background-color: var(--amber); }
+
+    /* ── Active Promos List ── */
+    .promo-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(232,160,48,0.15);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+      transition: border-color .25s, transform .25s;
+      font-family: 'DM Sans', sans-serif;
+      height: 100%;
+    }
+    .promo-card:hover {
+      border-color: rgba(232,160,48,0.45);
+      transform: translateY(-3px);
+    }
+    .promo-card .promo-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+    .promo-card h5 {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+    .promo-card p { color: var(--muted); font-size: 0.88rem; margin: 0; }
+    .promo-card .badge {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      border-radius: 2px;
+      padding: 0.35em 0.7em;
+    }
+    .badge-amber { background: rgba(232,160,48,0.18) !important; color: var(--amber) !important; }
+    .badge-green { background: rgba(80,200,120,0.15) !important; color: #6ee7a0 !important; }
+    .badge-blue  { background: rgba(80,150,240,0.15) !important; color: #93c5fd !important; }
+
+    /* ── Accordion (Events) ── */
+    .accordion-item {
+      background: var(--card-bg) !important;
+      border: 1px solid rgba(232,160,48,0.12) !important;
+      border-radius: 10px !important;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    .accordion-button {
+      background: var(--card-bg) !important;
+      color: var(--cream) !important;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      box-shadow: none !important;
+    }
+    .accordion-button::after {
+      filter: invert(70%) sepia(50%) saturate(500%) hue-rotate(10deg);
+    }
+    .accordion-button:not(.collapsed) {
+      color: var(--amber) !important;
+      border-bottom: 1px solid rgba(232,160,48,0.2);
+    }
+    .accordion-body {
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .accordion-body ul { padding-left: 1.2rem; }
+    .accordion-body li { margin-bottom: 0.35rem; }
+    .event-date {
+      display: inline-block;
+      background: rgba(232,160,48,0.1);
+      border: 1px solid rgba(232,160,48,0.25);
+      color: var(--amber);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.25em 0.7em;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Coming Soon placeholder ── */
+    .coming-soon-card {
+      border: 1px dashed rgba(168,152,128,0.3);
+      border-radius: 12px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+    }
+    .coming-soon-card i { font-size: 2rem; color: var(--muted); margin-bottom: 0.75rem; display: block; }
+
+    /* ── Alert override ── */
+    .alert-info-cafe {
+      background: rgba(147,197,253,0.08);
+      border: 1px solid rgba(147,197,253,0.25);
+      color: #93c5fd;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+    .alert-success-cafe {
+      background: rgba(110,231,183,0.08);
+      border: 1px solid rgba(110,231,183,0.25);
+      color: #6ee7b7;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+
+    /* ── Misc layout ── */
+    .section-wrapper { padding: 3.5rem 0; }
+
+    @media (max-width: 640px) {
+      #promoCarousel { max-width: 100%; }
+      .carousel-slide-body { padding: 1.4rem 1.4rem 1.2rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HOLIDAY ALERT BANNER (auto-shown on holidays)
+     ══════════════════════════════════════════════ -->
+<div id="holiday-banner" class="alert alert-dismissible mb-0" role="alert">
+  <div class="container d-flex align-items-center gap-3 flex-wrap">
+    <span class="badge" id="holiday-badge">🎉 Holiday Special</span>
+    <span id="holiday-message">
+      It's <strong id="holiday-name">a holiday</strong> today! Enjoy our limited-time promo:
+      <strong id="holiday-promo-text">10% off all drinks when you show this banner at the counter.</strong>
+    </span>
+    <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="alert"></button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     NAV
+     ══════════════════════════════════════════════ -->
+<nav>
+  <a class="nav-logo" href="index.html">Waffee <span>Café</span></a>
+  <input type="checkbox" id="nav-toggle" hidden/>
+  <label for="nav-toggle" class="hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <div class="dropdown nav-split-group">
+        <a href="about.html" class="nav-split-main">About</a>
+        <button type="button" class="nav-split-toggle dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu nav-dropdown-menu">
+          <li><a class="dropdown-item" href="personnel.html">Team</a></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="products.html">Menu</a></li>
+    <li><a href="customers.html">Customers</a></li>
+    <li><a href="news.html" class="active">News</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li>
+      <div class="dropdown nav-split-group">
+        <a href="support.html" class="nav-split-main">Support</a>
+        <button type="button" class="nav-split-toggle dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu nav-dropdown-menu">
+          <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════
+     PAGE HEADER
+     ══════════════════════════════════════════════ -->
+<div class="page-header">
+  <div class="eyebrow">What's Happening</div>
+  <h1>News & <em style="color:var(--amber);font-style:italic;">Events</em></h1>
+  <p>Stay updated with the latest from Waffee Café.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PROMO CAROUSEL
+     ══════════════════════════════════════════════ -->
+<section class="section-wrapper" style="background:#15110c;">
+  <div class="container">
+
+    <div class="mb-4">
+      <div class="section-label">✦ Featured Promos</div>
+      <h2 class="section-title">Current Highlights</h2>
+    </div>
+
+    <div id="promoCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4500">
+
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="3"></button>
+        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="4"></button>
+      </div>
+
+      <div class="carousel-inner">
+
+        <!-- Slide 1 – Mother's Day -->
+        <div class="carousel-item active">
+          <div class="carousel-slide" style="background: linear-gradient(135deg,#2a0a1a 0%,#1a1015 100%);">
+            <div class="carousel-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=900&q=80');"></div>
+            <div class="carousel-slide-img-wrap">
+              <img src="images/news1.JPG" alt="Mother's Day Promo"/>
+            </div>
+            <div class="carousel-slide-body">
+              <span class="carousel-promo-tag">🌸 Mother's Day</span>
+              <h2 class="carousel-title">Treat Mom This Mother's Day</h2>
+              <p class="carousel-desc">Celebrate the most important woman in your life at Waffee. Special treats and a complimentary flower for every mom who visits us.</p>
+              <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div class="carousel-validity"><i class="bi bi-calendar-heart"></i> May — Mother's Day Weekend</div>
+                <span class="badge badge-amber">Special Offer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 – Anniversary Promo -->
+        <div class="carousel-item">
+          <div class="carousel-slide" style="background: linear-gradient(135deg,#1a1005 0%,#3b2200 100%);">
+            <div class="carousel-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1525268323446-0505b6fe7778?w=900&q=80');"></div>
+            <div class="carousel-slide-img-wrap">
+              <img src="images/news3.JPG" alt="Anniversary Promo"/>
+            </div>
+            <div class="carousel-slide-body">
+              <span class="carousel-promo-tag">🎂 Anniversary Promo</span>
+              <h2 class="carousel-title">Waffee Celebrates — With You!</h2>
+              <p class="carousel-desc">To mark another year of good coffee and great company, enjoy exclusive anniversary discounts and limited freebies for all our loyal guests.</p>
+              <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div class="carousel-validity"><i class="bi bi-stars"></i> Limited Anniversary Run</div>
+                <span class="badge badge-green">Exclusive Deal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 – Labor Day -->
+        <div class="carousel-item">
+          <div class="carousel-slide" style="background: linear-gradient(135deg,#0a1a2a 0%,#101520 100%);">
+            <div class="carousel-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=80');"></div>
+            <div class="carousel-slide-img-wrap">
+              <img src="images/news1.JPG" alt="Labor Day Promo"/>
+            </div>
+            <div class="carousel-slide-body">
+              <span class="carousel-promo-tag">💪 Labor Day</span>
+              <h2 class="carousel-title">You Earned It — Happy Labor Day</h2>
+              <p class="carousel-desc">Workers deserve a break. Show any company ID or employee card and enjoy 20% off your total bill. Rest up, you've worked hard enough.</p>
+              <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div class="carousel-validity"><i class="bi bi-calendar3"></i> May 1 — One Day Only</div>
+                <span class="badge badge-blue">20% Off</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4 – Fiesta Promo -->
+        <div class="carousel-item">
+          <div class="carousel-slide" style="background: linear-gradient(135deg,#1f1205 0%,#2e1800 100%);">
+            <div class="carousel-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?w=900&q=80');"></div>
+            <div class="carousel-slide-img-wrap">
+              <img src="images/news5.JPG" alt="Fiesta Promo"/>
+            </div>
+            <div class="carousel-slide-body">
+              <span class="carousel-promo-tag">🎉 Fiesta Promo</span>
+              <h2 class="carousel-title">¡Viva la Fiesta! Celebrate With Us</h2>
+              <p class="carousel-desc">It's fiesta season and Waffee is joining the fun! Enjoy festive bundles and group deals for your barkada. The more, the merrier.</p>
+              <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div class="carousel-validity"><i class="bi bi-people-fill"></i> Fiesta Season — Group Deals</div>
+                <span class="badge badge-amber">Barkada Bundles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5 – National Heroes Day -->
+        <div class="carousel-item">
+          <div class="carousel-slide" style="background: linear-gradient(135deg,#0f1a05 0%,#1a2800 100%);">
+            <div class="carousel-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=900&q=80');"></div>
+            <div class="carousel-slide-img-wrap">
+              <img src="images/news4.JPG" alt="National Heroes Day"/>
+            </div>
+            <div class="carousel-slide-body">
+              <span class="carousel-promo-tag">🇵🇭 National Heroes Day</span>
+              <h2 class="carousel-title">Saluting Our Heroes</h2>
+              <p class="carousel-desc">In honor of the brave men and women who shaped our nation — enjoy a Buy 1 Get 1 on all iced drinks. Mabuhay ang mga bayani!</p>
+              <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div class="carousel-validity"><i class="bi bi-shield-fill"></i> August 25 — National Heroes Day</div>
+                <span class="badge badge-green">Buy 1 Get 1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.carousel-inner -->
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+
+    </div><!-- /#promoCarousel -->
+
+    <!-- Info alert below carousel -->
+    <div class="alert alert-info-cafe mt-3 d-flex gap-2 align-items-center" role="alert">
+      <i class="bi bi-info-circle-fill"></i>
+      <span>All promos are available in-store only. Present this page or mention the promo at the counter. Terms may apply.</span>
+    </div>
+
+  </div><!-- /.container -->
+</section>
+
+
+<hr class="divider"/>
+
+
+<!-- ══════════════════════════════════════════════
+     ACTIVE PROMOS QUICK CARDS
+     ══════════════════════════════════════════════ -->
+<section class="section-wrapper">
+  <div class="container">
+
+    <div class="mb-4">
+      <div class="section-label">✦ All Promos</div>
+      <h2 class="section-title">What's On Right Now</h2>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="promo-card">
+          <span class="promo-icon">🪙</span>
+          <h5>Loyalty Card Stamps</h5>
+          <p class="mb-3">Collect stamps every visit — earn a free drink after completing your loyalty card. Ask our crew for your card today!</p>
+          <span class="badge badge-amber">Ongoing</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="promo-card">
+          <span class="promo-icon">☕</span>
+          <h5>Buy 1 Take 1</h5>
+          <p class="mb-3">Buy one drink, take one free! Available on select beverages. Check with our staff for the current BOGO items of the day.</p>
+          <span class="badge badge-green">Limited Offer</span>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="promo-card">
+          <span class="promo-icon">🎁</span>
+          <h5>Father's Day Free Mug</h5>
+          <p class="mb-3">Spend ₱1,000 in a single receipt this Father's Day and receive a FREE Waffee Café mug — the perfect gift for Dad!</p>
+          <span class="badge badge-blue">Father's Day Special</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success alert -->
+    <div class="alert alert-success-cafe mt-3 d-flex gap-2 align-items-center" role="alert">
+      <i class="bi bi-check-circle-fill"></i>
+      <span>Promos are updated regularly. Check back every week for fresh deals!</span>
+    </div>
+
+  </div>
+</section>
+
+
+<hr class="divider"/>
+
+
+<!-- ══════════════════════════════════════════════
+     EVENTS ACCORDION
+     ══════════════════════════════════════════════ -->
+<section class="section-wrapper" style="background:#15110c;">
+  <div class="container">
+
+    <div class="mb-4">
+      <div class="section-label">✦ Events</div>
+      <h2 class="section-title">What's Happening at Waffee</h2>
+    </div>
+
+    <div class="accordion" id="eventsAccordion">
+
+      <!-- Event 1 – Merch -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#event1">
+            👕 &nbsp; Waffee Café Merchandise
+          </button>
+        </h2>
+        <div id="event1" class="accordion-collapse collapse show" data-bs-parent="#eventsAccordion">
+          <div class="accordion-body">
+            <span class="event-date"><i class="bi bi-bag-fill"></i> &nbsp;Available In-Store</span>
+            <p>Rep the café wherever you go! Waffee Café merch is now available for purchase in-store. From cozy shirts to stylish tote bags, there's something for every fan of the café.</p>
+            <ul>
+              <li>🧢 <strong style="color:var(--amber);">T-Shirts</strong> — classic and comfortable with our signature Waffee branding</li>
+              <li>👜 <strong style="color:var(--amber);">Tote Bags</strong> — perfect for errands, school, or a café day out</li>
+              <li>Limited stocks only — grab yours before they run out!</li>
+              <li>Ask our crew for sizing and available designs at the counter</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 2 – Birthday Celebrations -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event2">
+            🎂 &nbsp; Mini Birthday Celebrations
+          </button>
+        </h2>
+        <div id="event2" class="accordion-collapse collapse" data-bs-parent="#eventsAccordion">
+          <div class="accordion-body">
+            <span class="event-date"><i class="bi bi-calendar3"></i> &nbsp;By Arrangement — Message Us to Book!</span>
+            <p>Looking for a cozy place to celebrate? Waffee Café can host your little birthday gatherings! We set the vibe so you and your loved ones can focus on the fun.</p>
+            <ul>
+              <li>Ideal for intimate groups — celebrate in a warm, coffee-scented setting</li>
+              <li>Personalized table setup and décor arrangements available</li>
+              <li>Custom cake or dessert coordinations upon request</li>
+              <li>Reach out to us through our socials or drop by to inquire</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 3 – Community Sponsorships -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event3">
+            🤝 &nbsp; Community Sponsorships
+          </button>
+        </h2>
+        <div id="event3" class="accordion-collapse collapse" data-bs-parent="#eventsAccordion">
+          <div class="accordion-body">
+            <span class="event-date"><i class="bi bi-geo-alt-fill"></i> &nbsp;Local Barangay Events & Nearby Community Programs</span>
+            <p>Waffee Café believes in giving back! We actively support and sponsor events happening in and around our local barangays and community spaces. If you're organizing something nearby, we'd love to be part of it.</p>
+            <ul>
+              <li>Open to sponsoring local sports fests, school programs, and cultural events</li>
+              <li>Refreshment sponsorships for barangay-organized activities</li>
+              <li>Collaborative pop-ups or booths at community gatherings</li>
+              <li>Reach out to us through our socials or email to discuss partnership opportunities</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 4 – More Coming -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event4">
+            📢 &nbsp; More Events Coming Soon
+          </button>
+        </h2>
+        <div id="event4" class="accordion-collapse collapse" data-bs-parent="#eventsAccordion">
+          <div class="accordion-body">
+            We're always brewing up something new for our community. Follow us on social media or visit us at the counter to stay in the loop on upcoming events, collabs, and surprises!
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.accordion -->
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════ -->
+
+<footer>
+  <div class="footer-logo">The Waffee Café</div>
+  <p>© 2025 The Waffee Café · 33 Kagitingan Street, Muzon, 1479 Malabon, Philippines</p>
+  <p style="margin-top:0.25rem;">Open 5:00 PM – 12:00 MN</p>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ══════════════════════════════════════════════
+     HOLIDAY DETECTION SCRIPT
+     ══════════════════════════════════════════════ -->
+<script>
+  // Philippine public holidays + special non-working days
+  // Format: "MM-DD" for fixed dates, special handling for moving ones
+  const PH_HOLIDAYS = [
+    { date: "01-01", name: "New Year's Day",          promo: "Ring in the new year! Enjoy 15% off all drinks today." },
+    { date: "02-25", name: "EDSA People Power Day",   promo: "Commemorating freedom — free upsize on any drink today!" },
+    { date: "04-09", name: "Araw ng Kagitingan",      promo: "Honor the brave. Buy any waffle, get a free drip coffee." },
+    { date: "05-01", name: "Labor Day",                promo: "Happy Labor Day! Workers get 20% off with any company ID." },
+    { date: "06-12", name: "Independence Day",         promo: "Mabuhay! 12% off everything in honor of June 12." },
+    { date: "08-21", name: "Ninoy Aquino Day",         promo: "In remembrance — complimentary cookie with any drink order." },
+    { date: "08-25", name: "National Heroes Day",      promo: "Salute our heroes! Buy 1 Get 1 on all iced drinks today." },
+    { date: "11-01", name: "All Saints' Day",          promo: "Spending the night out? Free coffee refill for staying guests." },
+    { date: "11-02", name: "All Souls' Day",           promo: "A quiet night for remembrance. Comfort drinks at special prices." },
+    { date: "11-30", name: "Bonifacio Day",            promo: "Viva Bonifacio! 15% off for groups of 3 or more." },
+    { date: "12-08", name: "Immaculate Conception Day",promo: "Celebrate with us — free pastry with every drink order today." },
+    { date: "12-24", name: "Christmas Eve",            promo: "Pasko na! Special holiday bundle: waffle + drink + dessert." },
+    { date: "12-25", name: "Christmas Day",            promo: "Merry Christmas! Free hot choco for kids 12 & below." },
+    { date: "12-30", name: "Rizal Day",                promo: "Honor Dr. Rizal — 30% off on your 30th peso item today." },
+    { date: "12-31", name: "New Year's Eve",           promo: "Let's end the year right! Midnight specials until closing." },
+  ];
+
+  function getTodayKey() {
+    const now = new Date();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    return `${mm}-${dd}`;
+  }
+
+  function checkHoliday() {
+    const todayKey = getTodayKey();
+    const holiday  = PH_HOLIDAYS.find(h => h.date === todayKey);
+    if (!holiday) return;
+
+    const banner   = document.getElementById('holiday-banner');
+    const nameEl   = document.getElementById('holiday-name');
+    const promoEl  = document.getElementById('holiday-promo-text');
+    const badgeEl  = document.getElementById('holiday-badge');
+
+    nameEl.textContent  = holiday.name;
+    promoEl.textContent = holiday.promo;
+    badgeEl.textContent = '🎉 Holiday Promo';
+    banner.style.display = 'block';
+
+    // Also inject a carousel slide for the holiday promo
+    injectHolidaySlide(holiday);
+  }
+
+  function injectHolidaySlide(holiday) {
+    const inner    = document.querySelector('#promoCarousel .carousel-inner');
+    const indicators = document.querySelector('#promoCarousel .carousel-indicators');
+
+    // Build slide
+    const item = document.createElement('div');
+    item.className = 'carousel-item';
+    item.innerHTML = `
+      <div class="carousel-slide" style="background:linear-gradient(135deg,#1a0a05 0%,#3b1000 100%);">
+        <div class="carousel-slide-bg" style="background-image:url('https://images.unsplash.com/photo-1467810563316-b5af2cc7369b?w=900&q=80');"></div>
+        <div class="carousel-content">
+          <span class="carousel-promo-tag">🎉 Holiday Special</span>
+          <h2 class="carousel-title">${holiday.name} Promo</h2>
+          <p class="carousel-desc">${holiday.promo}</p>
+          <div class="d-flex align-items-center gap-4 flex-wrap">
+            <div class="carousel-validity"><i class="bi bi-calendar-heart"></i> Today only</div>
+            <span class="badge badge-amber">Limited Time</span>
+          </div>
+        </div>
+      </div>`;
+
+    // Prepend to make it first
+    inner.insertBefore(item, inner.firstChild);
+
+    // Remove 'active' from current first slide, set to new one
+    inner.querySelector('.carousel-item.active')?.classList.remove('active');
+    item.classList.add('active');
+
+    // Add indicator
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('data-bs-target', '#promoCarousel');
+    btn.setAttribute('data-bs-slide-to', '0');
+    btn.classList.add('active');
+    // Shift existing indicator indices
+    indicators.querySelectorAll('[data-bs-slide-to]').forEach(b => {
+      b.setAttribute('data-bs-slide-to', parseInt(b.getAttribute('data-bs-slide-to')) + 1);
+      b.classList.remove('active');
+    });
+    indicators.insertBefore(btn, indicators.firstChild);
+  }
+
+  checkHoliday();
+</script>
+
+</body>
+</html>

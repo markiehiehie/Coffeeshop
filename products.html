@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu – Waffee Café</title>
+  <style>
+    .section {
+      max-width: 100% !important;
+      padding: 80px 3rem !important;
+    }
+    .menu-card {
+      border: 1px solid rgba(232,160,48,0.2) !important;
+      border-radius: 10px !important;
+      overflow: hidden;
+      height: 100%;
+      background: #1e1810;
+      transition: border-color 0.25s;
+    }
+    .menu-card:hover {
+      border-color: #e8a234 !important;
+    }
+    .menu-card .img-area {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+    .menu-card .img-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .menu-card:hover .img-area img {
+      transform: scale(1.05);
+    }
+    .menu-card .card-body {
+      padding: 0.85rem 1.1rem;
+    }
+    .menu-card .item-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f8f0e3;
+      margin-bottom: 2px;
+    }
+    .menu-card .item-price {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e8a234;
+    }
+    .menu-card .item-desc {
+      font-size: 0.82rem;
+      color: #bfaa88;
+      margin-top: 4px;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+    .menu-section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #f8f0e3;
+      margin-bottom: 0.25rem;
+    }
+    .menu-divider {
+      border: none;
+      border-top: 1px solid rgba(232,160,48,0.18);
+      margin-bottom: 1.5rem;
+    }
+    .menu-section {
+      margin-bottom: 4rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Waffee <span>Café</span></a>
+  <input type="checkbox" id="nav-toggle" hidden/>
+  <label for="nav-toggle" class="hamburger"><span></span><span></span><span></span></label>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <div class="dropdown nav-split-group">
+        <a href="about.html" class="nav-split-main">About</a>
+        <button type="button" class="nav-split-toggle dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu nav-dropdown-menu">
+          <li><a class="dropdown-item" href="personnel.html">Team</a></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="products.html" class="active">Menu</a></li>
+    <li><a href="customers.html">Customers</a></li>
+    <li><a href="news.html">News</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li>
+      <div class="dropdown nav-split-group">
+        <a href="support.html" class="nav-split-main">Support</a>
+        <button type="button" class="nav-split-toggle dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu nav-dropdown-menu">
+          <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Products & Services</div>
+  <h1>Our <em style="color:var(--amber);font-style:italic;">Menu</em></h1>
+  <p>All items are prepared by family members to ensure quality and consistency.</p>
+</div>
+
+<section class="section">
+
+  <!-- Coffee -->
+  <div class="menu-section">
+    <div class="menu-section-title">☕ Coffee</div>
+    <hr class="menu-divider"/>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4">
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/c1.png" alt="Caramel Latte" onerror="this.style.display='none';this.parentElement.innerHTML='☕'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Caramel Latte</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Smooth iced coffee with sweet caramel and creamy milk.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/c2.png" alt="Latte" onerror="this.style.display='none';this.parentElement.innerHTML='🥛'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Hazelnut</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Nutty iced coffee with rich espresso and milk.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/c3.png" alt="Caramel Latte" onerror="this.style.display='none';this.parentElement.innerHTML='🍮'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Spanish Latte</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Bold, creamy iced coffee with a touch of sweetness.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/c4.png" alt="Cappuccino" onerror="this.style.display='none';this.parentElement.innerHTML='☕'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">French Vanilla</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Smooth iced coffee with soft vanilla flavor.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/c5.png" alt="Iced Coffee" onerror="this.style.display='none';this.parentElement.innerHTML='🧊'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Mocha</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Chocolatey iced coffee blended with rich espresso and milk.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non coffee -->
+  <div class="menu-section">
+    <div class="menu-section-title">Non-Coffee</div>
+    <hr class="menu-divider"/>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4">
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/nc1.png" alt="Chocolate Waffle" onerror="this.style.display='none';this.parentElement.innerHTML='🧇'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Cadbury Cocoa Frappe</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Chocolatey frappe made with rich Cadbury cocoa for a smooth, indulgent treat.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/nc2.png" alt="Strawberry Waffle" onerror="this.style.display='none';this.parentElement.innerHTML='🍓'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Caramel Cream Frappe</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Creamy frappe blended with sweet caramel for a smooth and rich flavor.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/noncoffee3.png" alt="Classic Waffle" onerror="this.style.display='none';this.parentElement.innerHTML='🧇'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Matcha with Milk</div>
+            <div class="item-price">₱165</div>
+            <p class="item-desc">Earthy matcha blended with creamy milk for a smooth, balanced taste.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/nc4.png" alt="Blueberry Waffle" onerror="this.style.display='none';this.parentElement.innerHTML='🫐'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Peach Red Tea</div>
+            <div class="item-price">₱140</div>
+            <p class="item-desc">Refreshing red tea infused with sweet peach flavor for a light fruity drink.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/nc5.png" alt="Nutella Waffle" onerror="this.style.display='none';this.parentElement.innerHTML='🍫'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Strawberry Cheesecake Frappe</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Creamy strawberry frappe with cheesecake flavor for a sweet, dessert-like drink.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pastries -->
+  <div class="menu-section">
+    <div class="menu-section-title">🍰 Pastries</div>
+    <hr class="menu-divider"/>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4">
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/pastries1.png" alt="Brownies" onerror="this.style.display='none';this.parentElement.innerHTML='🍫'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Waffle with Vanilla Ice Cream</div>
+            <div class="item-price">₱165</div>
+            <p class="item-desc">Warm waffle topped with smooth vanilla ice cream for a classic sweet treat.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/pastries2.png" alt="Cookies" onerror="this.style.display='none';this.parentElement.innerHTML='🍪'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Waffle with Strawberry Syrup</div>
+            <div class="item-price">₱155</div>
+            <p class="item-desc">Fresh waffle drizzled with sweet strawberry syrup for a fruity flavor.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/pastries3.png" alt="Croissant" onerror="this.style.display='none';this.parentElement.innerHTML='🥐'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Waffle with Chocolate Syrup</div>
+            <div class="item-price">₱155</div>
+            <p class="item-desc">Soft waffle topped with rich chocolate syrup for a sweet, indulgent taste.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/pastries4.png" alt="Banana Bread" onerror="this.style.display='none';this.parentElement.innerHTML='🍞'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Waffle with Chicken</div>
+            <div class="item-price">₱165</div>
+            <p class="item-desc">Savory waffle served with crispy chicken for a sweet and salty combination.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/pastries5.png" alt="Glazed Donut" onerror="this.style.display='none';this.parentElement.innerHTML='🍩'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Burnt Basque Cheesecake</div>
+            <div class="item-price">₱145</div>
+            <p class="item-desc">Creamy cheesecake with a caramelized top and soft center.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rice Meals -->
+  <div class="menu-section">
+    <div class="menu-section-title">🍛 Rice Meals <em style="font-size:0.78rem;font-style:normal;color:#b8a080;">(Daily Special — menu changes every day)</em></div>
+    <hr class="menu-divider"/>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4">
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/rice1.png" alt="Chicken Teriyaki" onerror="this.style.display='none';this.parentElement.innerHTML='🍗'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Quarter Leg with Mushroom Gravy</div>
+            <div class="item-price">₱150</div>
+            <p class="item-desc">Juicy chicken quarter leg served with rich mushroom gravy.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/rice2.png" alt="Pork Adobo" onerror="this.style.display='none';this.parentElement.innerHTML='🥩'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Spam Kimchi Fried Rice</div>
+            <div class="item-price">₱140</div>
+            <p class="item-desc">Savory fried rice with spam and tangy kimchi for a bold flavor.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/rice3.png" alt="Beef Steak" onerror="this.style.display='none';this.parentElement.innerHTML='🥩'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Teriyaki Chicken Poppers</div>
+            <div class="item-price">₱160</div>
+            <p class="item-desc">Bite-sized chicken coated in sweet and savory teriyaki glaze.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/rice4.png" alt="Garlic Shrimp" onerror="this.style.display='none';this.parentElement.innerHTML='🍤'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Fried Pork Belly with Egg</div>
+            <div class="item-price">₱155</div>
+            <p class="item-desc">Crispy pork belly served with a fried egg for a hearty meal.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card menu-card">
+          <div class="img-area">
+            <img src="images/rice5.png" alt="Veggie Bowl" onerror="this.style.display='none';this.parentElement.innerHTML='🥦'"/>
+          </div>
+          <div class="card-body">
+            <div class="item-name">Buffalo Quarter Leg</div>
+            <div class="item-price">₱120</div>
+            <p class="item-desc">Crispy chicken quarter leg tossed in spicy buffalo sauce for a bold, tangy kick.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<footer>
+  <div class="footer-logo">The Waffee Café</div>
+  <p>© 2025 The Waffee Café · 33 Kagitingan Street, Muzon, 1479 Malabon, Philippines</p>
+  <p style="margin-top:0.25rem;">Open 5:00 PM – 12:00 MN</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
